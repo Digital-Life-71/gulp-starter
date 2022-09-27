@@ -1,67 +1,167 @@
-let preprocessor = 'sass'; 
- 
+let path = {
+	build:
+	{
+		html: "dist/",
+		css: "dist/css/",
+		js: "dist/js/",
+		img: "dist/img/",
+		fonts: "dist/fonts/",
+	},
+	src:
+	{
+		html: ["app/*.html", "!app/inc"],
+		css: "app/sass/style.sass",
+		js: "app/js/script.js",
+		img: "app/img/**/*.{jpg,png,svg,gif,ico,webp}",
+		fonts: "app/fonts/*.ttf",
+	},
+	watch:
+	{
+		html: "app/**/*.html",
+		css: "app/sass/**/*.sass",
+		js: "app/js/**/*..js",
+		img: "app/img/**/*.{jpg,png,svg,gif,ico,webp}",
+	},
+	clean: "./dist/"
+}
+
 const { src, dest, parallel, series, watch } = require('gulp');
 const browserSync = require('browser-sync').create();
+const fileinclude = require('gulp-file-include');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify-es').default;
 const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
+const group_media = require('gulp-group-css-media-queries');
 const cleancss = require('gulp-clean-css');
+const rename = require('gulp-rename');
+const htmlmin = require('gulp-htmlmin');
 const del = require('del');
- 
+
 function browsersync() {
-	browserSync.init({ 
-		server: { baseDir: 'app/' }, // Указываем папку сервера
-		notify: false, 
-		online: true 
+	browserSync.init({
+		server: { baseDir: "./dist/" }, // Указываем папку сервера
+		notify: false,
+		online: true
 	})
 }
- 
+
+function html() {
+	return src(path.src.html)
+		.pipe(fileinclude())
+		.pipe(dest(path.build.html))
+		.pipe(browserSync.stream())
+}
+
 function scripts() {
-	return src([
-		'node_modules/jquery/dist/jquery.min.js',
-		'app/js/app.js',
-		])
-	.pipe(concat('app.min.js')) 
-	.pipe(uglify())
-	.pipe(dest('app/js/'))
-	.pipe(browserSync.stream())
+	return src(path.src.js)
+		.pipe(
+			rename({
+				suffix: "script.min"
+			})
+		)
+		.pipe(dest(path.build.js))
+		.pipe(browserSync.stream())
 }
- 
+
 function styles() {
-	return src('app/' + preprocessor + '/main.' + preprocessor + '')
-	.pipe(eval(preprocessor)()) 
-	.pipe(concat('app.min.css'))
-	.pipe(autoprefixer({ overrideBrowserslist: ['last 10 versions'], grid: true })) 
-	.pipe(cleancss( { level: { 1: { specialComments: 0 } }/* , format: 'beautify' */ } ))
-	.pipe(dest('app/css/')) 
-	.pipe(browserSync.stream())
+	return src(path.src.css)
+		.pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
+		.pipe(
+			group_media()
+		)
+		.pipe(
+			autoprefixer({
+				overrideBrowserslist: ["last 10 versions"],
+				cascade: true
+			})
+		)
+		.pipe(
+			rename({
+				suffix: ".min"
+			})
+		)
+		.pipe(dest(path.build.css))
+		.pipe(browserSync.stream())
 }
- 
-function buildcopy() {
-	return src([ // Выбираем нужные файлы
-		'app/css/**/*.min.css',
-		'app/js/**/*.min.js',
-		'app/images/dest/**/*',
-		'app/**/*.html',
-		], { base: 'app' }) // Параметр "base" сохраняет структуру проекта при копировании
-	.pipe(dest('dist')) // Выгружаем в папку с финальной сборкой
+
+function images() {
+	return src(path.src.img)
+		.pipe(dest(path.build.img))
+		.pipe(browserSync.stream())
 }
- 
+
+
 function cleandist() {
 	return del('dist/**/*', { force: true }) // 
 }
- 
+
 function startwatch() {
-	watch(['app/**/*.js', '!app/**/*.min.js'], scripts);
-	watch('app/**/' + preprocessor + '/**/*', styles);
-	watch('app/**/*.html').on('change', browserSync.reload);
+	watch([path.watch.html], html);
+	watch([path.watch.css], styles);
+	watch([path.watch.js], scripts);
+	watch(["app" + "/img/**/*.{jpg,png,svg,gif,ico,webp}"], images);
 }
- 
+
+
+
+
+
+function htmlBuild() {
+	return src(path.src.html)
+		.pipe(fileinclude())
+		.pipe(htmlmin({ collapseWhitespace: true }))
+		.pipe(dest(path.build.html))
+		.pipe(browserSync.stream())
+}
+
+function scriptsBuild() {
+	return src(path.src.js)
+		.pipe(concat('script.min.js'))
+		.pipe(uglify())
+		.pipe(dest(path.build.js))
+		.pipe(browserSync.stream())
+}
+
+function stylesBuild() {
+	return src(path.src.css)
+		.pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
+		.pipe(
+			group_media()
+		)
+		.pipe(
+			autoprefixer({
+				overrideBrowserslist: ["last 10 versions"],
+				cascade: true
+			})
+		)
+		.pipe(cleancss())
+		.pipe(
+			rename({
+				extname: ".min.css"
+			})
+		)
+		.pipe(dest(path.build.css))
+		.pipe(browserSync.stream())
+}
+
+function imagesBuild() {
+	return src(path.src.img)
+		.pipe(dest(path.build.img))
+		.pipe(browserSync.stream())
+}
+
 exports.browsersync = browsersync;
 exports.scripts = scripts;
 exports.styles = styles;
- 
+exports.html = html;
 
-exports.build = series(cleandist, styles, scripts, buildcopy);
-exports.default = parallel(styles, scripts, browsersync, startwatch);
+exports.scriptsBuild = scriptsBuild;
+exports.stylesBuild = stylesBuild;
+exports.htmlBuild = htmlBuild;
+exports.imagesBuild = imagesBuild;
+
+
+
+exports.build = series(cleandist, htmlBuild, stylesBuild, scriptsBuild, imagesBuild);
+exports.default = parallel(cleandist, html, styles, scripts, images, browsersync, startwatch);
