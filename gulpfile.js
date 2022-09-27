@@ -107,7 +107,7 @@ function startwatch() {
 
 
 
-function htmlBuild() {
+function htmlMin() {
 	return src(path.src.html)
 		.pipe(fileinclude())
 		.pipe(htmlmin({ collapseWhitespace: true }))
@@ -115,7 +115,7 @@ function htmlBuild() {
 		.pipe(browserSync.stream())
 }
 
-function scriptsBuild() {
+function scriptsMin() {
 	return src(path.src.js)
 		.pipe(concat('script.min.js'))
 		.pipe(uglify())
@@ -123,7 +123,7 @@ function scriptsBuild() {
 		.pipe(browserSync.stream())
 }
 
-function stylesBuild() {
+function stylesMin() {
 	return src(path.src.css)
 		.pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
 		.pipe(
@@ -145,7 +145,7 @@ function stylesBuild() {
 		.pipe(browserSync.stream())
 }
 
-function imagesBuild() {
+function imagesMin() {
 	return src(path.src.img)
 		.pipe(dest(path.build.img))
 		.pipe(browserSync.stream())
@@ -156,12 +156,12 @@ exports.scripts = scripts;
 exports.styles = styles;
 exports.html = html;
 
-exports.scriptsBuild = scriptsBuild;
-exports.stylesBuild = stylesBuild;
-exports.htmlBuild = htmlBuild;
-exports.imagesBuild = imagesBuild;
+exports.scriptsMin = scriptsBuild;
+exports.stylesMin = stylesMin;
+exports.htmlMin = htmlMin;
+exports.imagesMin = imagesMin;
 
 
 
-exports.build = series(cleandist, htmlBuild, stylesBuild, scriptsBuild, imagesBuild);
+exports.build = series(cleandist, htmlMin, stylesMin, scriptsMin, imagesMin);
 exports.default = parallel(cleandist, html, styles, scripts, images, browsersync, startwatch);
