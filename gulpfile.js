@@ -19,7 +19,7 @@ let path = {
 	{
 		html: "app/**/*.html",
 		css: "app/sass/**/*.sass",
-		js: "app/js/**/*..js",
+		js: "app/js/**/*.js",
 		img: "app/img/**/*.{jpg,png,svg,gif,ico,webp}",
 	},
 	clean: "./dist/"
@@ -91,7 +91,6 @@ function images() {
 		.pipe(browserSync.stream())
 }
 
-
 function cleandist() {
 	return del('dist/**/*', { force: true }) // 
 }
@@ -102,10 +101,6 @@ function startwatch() {
 	watch([path.watch.js], scripts);
 	watch(["app" + "/img/**/*.{jpg,png,svg,gif,ico,webp}"], images);
 }
-
-
-
-
 
 function htmlMin() {
 	return src(path.src.html)
@@ -156,12 +151,10 @@ exports.scripts = scripts;
 exports.styles = styles;
 exports.html = html;
 
-exports.scriptsMin = scriptsBuild;
+exports.scriptsMin = scriptsMin;
 exports.stylesMin = stylesMin;
 exports.htmlMin = htmlMin;
 exports.imagesMin = imagesMin;
-
-
 
 exports.build = series(cleandist, htmlMin, stylesMin, scriptsMin, imagesMin);
 exports.default = parallel(cleandist, html, styles, scripts, images, browsersync, startwatch);
