@@ -55,7 +55,21 @@ npm i gulp
 - [del](https://www.npmjs.com/package/del) Удаление каталогов и файлов    
 - [gulp-rename](https://www.npmjs.com/package/gulp-rename) Переименовывает файлы и минифицирует  
 - [gulp-imagemin](https://www.npmjs.com/package/gulp-imagemin) Сжатие изображений     
-- [gulp-group-css-media-queries](https://www.npmjs.com/package/gulp-group-css-media-queries) Объединяет и выносит  в конец файла все медиа запросы 
+- [gulp-group-css-media-queries](https://www.npmjs.com/package/gulp-group-css-media-queries) Объединяет и выносит  в конец файла все медиа запросы  
+
+## Команда для установки плагина
+```
+npm i gulp-file-include
+```
+То есть вводим в команду название плагина, а npm  уже установит данный плагин нам, так же плагины можно устанавливать несколько за раз и теперь команада будет  выглядеть  таким образом
+
+```
+npm i gulp-file-include gulp-htmlmin gulp-concat
+```
+Gulp имеет возможность установаить сразу все плаигны,  которые раньше были установлены в package.json с помощью команды
+```
+npm i
+```
 
 ## Устранение возможных проблем
 Если устанавливаем Галп ни Windows. Есть вероятность ошибки, связанной с  правами. Решение: PowerShell запускаем от  имени администратора и прописываем следующую команду
