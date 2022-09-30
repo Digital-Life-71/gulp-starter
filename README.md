@@ -16,10 +16,8 @@ npx --version
 ## Глобальная установка
 Выполняется командой 
 ```
-npm install –global gulp-cli
+npm install --global gulp-cli
 ```
-
-
 
 ## Запуск проекта
 
@@ -38,12 +36,9 @@ npm i gulp
 - компиляция препроцессоров SASS
 - минификация CSS
 - автоматическое добавление префиксов CSS
-- транспиляция языков Type Script и Coffee Script
 - минификация JavaScript
 - сжатие изображений
-- отслеживание изменений в файлах и автоматический запуск повторной обработки
-- генерация sourcemaps
-- отображение размеров файлов в терминале
+- отслеживание изменений в файлах
 - локальный сервер с автоматическим обновлением страницы при изменении файлов
 
 ## Используемые NPM пакеты
@@ -60,5 +55,24 @@ npm i gulp
 - [del](https://www.npmjs.com/package/del) Удаление каталогов и файлов    
 - [gulp-rename](https://www.npmjs.com/package/gulp-rename) Переименовывает файлы и минифицирует  
 - [gulp-imagemin](https://www.npmjs.com/package/gulp-imagemin) Сжатие изображений     
-- [gulp-group-css-media-queries](https://www.npmjs.com/package/gulp-group-css-media-queries) Объединяет и выносит  в конец файла все медиа запросы   
+- [gulp-group-css-media-queries](https://www.npmjs.com/package/gulp-group-css-media-queries) Объединяет и выносит  в конец файла все медиа запросы 
 
+## Устранение возможных проблем
+Если устанавливаем Галп ни Windows. Есть вероятность ошибки, связанной с  правами. Решение: PowerShell запускаем от  имени администратора и прописываем следующую команду
+```
+Set-ExecutionPolicy RemoteSigned
+```
+imagemin устанавливаем 7.1.0 версии
+
+Если возникает  проблемы с плагином Sass, нужно проверить константу, и заменить
+```
+scss = require('gulp-sass')(require('sass'));
+```
+Если возникает проблемаа с плагином WEBP-CSS то здесь нужно установить converter
+```
+npm install webp-converter@2.2.3
+```
+## Рекомендации, которые помогут  избежать ряд проблем
+Папка проекта не должна называться gulp  
+WEBP-CSS выдает ошибку, если в названии файла картинки есть пробелы, кириллица  
+ У кого копирует в dist только .jpg попробуйте немного изменить запись форматов с /*.{jpg, png, svg, gif, ico, webp} на /*.+(png|jpg|gif|ico|svg|webp) 
