@@ -47,18 +47,18 @@ npm i gulp
 - локальный сервер с автоматическим обновлением страницы при изменении файлов
 
 ## Используемые NPM пакеты
-[gulp](https://www.npmjs.com/package/gulp) Сборщик Gulp 
-[browser-sync](https://browsersync.io/docs/gulp) Автоматическое обновление сайта при изменении файлов
-[gulp-file-include](https://browsersync.io/docs/gulp) Подключение шаблонов
-[gulp-htmlmin](https://www.npmjs.com/package/gulp-htmlmin) Минификация HTML файлов
-[gulp-concat](https://www.npmjs.com/package/gulp-concat) Объединение нескольких файлов в один        
-[sass](https://www.npmjs.com/package/sass) Компилятор Sass  
-[gulp-sass](https://www.npmjs.com/package/gulp-sass) Компиляция Sass и Scss файлов  
-[gulp-uglify](https://www.npmjs.com/package/gulp-uglify) Сжатие и оптимизация Java Script кода  
-[gulp-autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer) Автоматическое добавление префиксов в CSS   
-[gulp-clean-css](https://www.npmjs.com/package/gulp-clean-css) Минификация и оптимизация CSS файлов   
-[del](https://www.npmjs.com/package/del) Удаление каталогов и файлов  
-[gulp-rename](https://www.npmjs.com/package/gulp-rename) Переименовывает файлы и минифицирует
-[gulp-imagemin](https://www.npmjs.com/package/gulp-imagemin) Сжатие изображений   
-[gulp-group-css-media-queries](https://www.npmjs.com/package/gulp-imagemin) Объединяет и выносит  в конец файла все медиа запросы 
+[gulp](https://www.npmjs.com/package/gulp) Сборщик Gulp  
+[browser-sync](https://browsersync.io/docs/gulp) Автоматическое обновление сайта при изменении файлов  
+[gulp-file-include](https://browsersync.io/docs/gulp) Подключение шаблонов  
+[gulp-htmlmin](https://www.npmjs.com/package/gulp-htmlmin) Минификация HTML файлов  
+[gulp-concat](https://www.npmjs.com/package/gulp-concat) Объединение нескольких файлов в один          
+[sass](https://www.npmjs.com/package/sass) Компилятор Sass    
+[gulp-sass](https://www.npmjs.com/package/gulp-sass) Компиляция Sass и Scss файлов    
+[gulp-uglify](https://www.npmjs.com/package/gulp-uglify) Сжатие и оптимизация Java Script кода    
+[gulp-autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer) Автоматическое добавление префиксов в CSS     
+[gulp-clean-css](https://www.npmjs.com/package/gulp-clean-css) Минификация и оптимизация CSS файлов     
+[del](https://www.npmjs.com/package/del) Удаление каталогов и файлов    
+[gulp-rename](https://www.npmjs.com/package/gulp-rename) Переименовывает файлы и минифицирует  
+[gulp-imagemin](https://www.npmjs.com/package/gulp-imagemin) Сжатие изображений     
+[gulp-group-css-media-queries](https://www.npmjs.com/package/gulp-imagemin) Объединяет и выносит  в конец файла все медиа запросы   
 
