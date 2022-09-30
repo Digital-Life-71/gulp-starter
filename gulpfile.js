@@ -34,6 +34,10 @@ const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
 const group_media = require('gulp-group-css-media-queries');
 const cleancss = require('gulp-clean-css');
+const imagemin = require('gulp-imagemin');
+const webp = require('gulp-webp');
+const webphtml = require('gulp-webp-html');
+const webpcss = require('gulp-webpcss');
 const rename = require('gulp-rename');
 const htmlmin = require('gulp-htmlmin');
 const del = require('del');
@@ -49,6 +53,7 @@ function browsersync() {
 function html() {
 	return src(path.src.html)
 		.pipe(fileinclude())
+		.pipe(webphtml())
 		.pipe(dest(path.build.html))
 		.pipe(browserSync.stream())
 }
@@ -57,7 +62,7 @@ function scripts() {
 	return src(path.src.js)
 		.pipe(
 			rename({
-				suffix: "script.min"
+				suffix: ".min"
 			})
 		)
 		.pipe(dest(path.build.js))
@@ -76,6 +81,7 @@ function styles() {
 				cascade: true
 			})
 		)
+		.pipe(webpcss())
 		.pipe(
 			rename({
 				suffix: ".min"
@@ -87,6 +93,21 @@ function styles() {
 
 function images() {
 	return src(path.src.img)
+		.pipe(
+			webp({
+				quality: 70
+			})
+		)
+		.pipe(dest(path.build.img))
+		.pipe(src(path.src.img))
+		.pipe(
+			imagemin({
+				progressive: true,
+				svgoPlugins: [{ removeViewBox: false }],
+				interlaced: true,
+				optimizationLevel: 3 // 0 to 7
+			})
+		)
 		.pipe(dest(path.build.img))
 		.pipe(browserSync.stream())
 }
@@ -99,7 +120,7 @@ function startwatch() {
 	watch([path.watch.html], html);
 	watch([path.watch.css], styles);
 	watch([path.watch.js], scripts);
-	watch(["app" + "/img/**/*.{jpg,png,svg,gif,ico,webp}"], images);
+	watch([path.watch.img], images);
 }
 
 function htmlMin() {
@@ -150,6 +171,7 @@ exports.browsersync = browsersync;
 exports.scripts = scripts;
 exports.styles = styles;
 exports.html = html;
+exports.images = images;
 
 exports.scriptsMin = scriptsMin;
 exports.stylesMin = stylesMin;
