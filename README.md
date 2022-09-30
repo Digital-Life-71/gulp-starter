@@ -1,3 +1,26 @@
+## Настройка окружения 
+Для первого запуска Gulp потребуется Node JS, если он не установлен. Переходим https://nodejs.org/en/ и скачиваем установщик.
+После установки, можем посмотреть какую  версию  мы установили и определяется ли  Node JS у нас с помощью команды
+```
+node --version  
+```
+Работа  с Gulp осуществляется не только  с помощью Node JS, но и его менеджера пакета npm  и  команды утилиты npx
+
+Поэтому тоже  используем команду--version  для проверки их версии
+```
+npm --version 
+```
+```
+npx --version
+```
+## Глобальная установка
+Выполняется командой 
+```
+npm install –global gulp-cli
+```
+
+
+
 ## Запуск проекта
 
 ```
@@ -24,27 +47,18 @@ npm i gulp
 - локальный сервер с автоматическим обновлением страницы при изменении файлов
 
 ## Используемые NPM пакеты
-[gulp](https://www.npmjs.com/package/gulp) Сборщик Gulp  
-[gulp-htmlmin](https://www.npmjs.com/package/gulp-htmlmin) Минификация HTML файлов  
-[gulp-pug](https://www.npmjs.com/package/gulp-pug) Pug препроцессор HTML кода  
-[gulp-less](https://www.npmjs.com/package/gulp-less) Компиляция Less файлов   
-[gulp-stylus](https://www.npmjs.com/package/gulp-stylus) Компиляция Styl файлов  
+[gulp](https://www.npmjs.com/package/gulp) Сборщик Gulp 
+[browser-sync](https://browsersync.io/docs/gulp) Автоматическое обновление сайта при изменении файлов
+[gulp-file-include](https://browsersync.io/docs/gulp) Подключение шаблонов
+[gulp-htmlmin](https://www.npmjs.com/package/gulp-htmlmin) Минификация HTML файлов
+[gulp-concat](https://www.npmjs.com/package/gulp-concat) Объединение нескольких файлов в один        
 [sass](https://www.npmjs.com/package/sass) Компилятор Sass  
 [gulp-sass](https://www.npmjs.com/package/gulp-sass) Компиляция Sass и Scss файлов  
 [gulp-uglify](https://www.npmjs.com/package/gulp-uglify) Сжатие и оптимизация Java Script кода  
-[gulp-coffee](https://www.npmjs.com/package/gulp-coffee) Преобразует Coffee Script в Java Script  
-[gulp-typescript](https://www.npmjs.com/package/gulp-typescript) Преобразует Type Script в Java Script  
-[typescript](https://www.npmjs.com/package/typescript) Язык Type Script  
-[gulp-babel](https://www.npmjs.com/package/gulp-babel) Преобразует Java Script в старый стандарт  
-[@babel/core](https://www.npmjs.com/package/@babel/core) Ядро Babel  
-[@babel/preset-env](https://www.npmjs.com/package/@babel/preset-env) Пресет для компиляции Babel  
+[gulp-autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer) Автоматическое добавление префиксов в CSS   
 [gulp-clean-css](https://www.npmjs.com/package/gulp-clean-css) Минификация и оптимизация CSS файлов   
 [del](https://www.npmjs.com/package/del) Удаление каталогов и файлов  
-[gulp-sourcemaps](https://www.npmjs.com/package/gulp-sourcemaps) Карта строк кода для инструментов  разработчика   
-[gulp-autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer) Автоматическое добавление префиксов в CSS   
+[gulp-rename](https://www.npmjs.com/package/gulp-rename) Переименовывает файлы и минифицирует
 [gulp-imagemin](https://www.npmjs.com/package/gulp-imagemin) Сжатие изображений   
-[gulp-concat](https://www.npmjs.com/package/gulp-concat) Объединение нескольких файлов в один  
-[gulp-newer](https://www.npmjs.com/package/gulp-newer) Отслеживание только новых файлов  
-[gulp-rename](https://www.npmjs.com/package/gulp-rename) Переименовывает файлы    
-[gulp-size](https://www.npmjs.com/package/gulp-size) Отображение информации о размерах файлов в терминале  
-[browser-sync](https://browsersync.io/docs/gulp) Автоматическое обновление сайта при изменении файлов  
+[gulp-group-css-media-queries](https://www.npmjs.com/package/gulp-imagemin) Объединяет и выносит  в конец файла все медиа запросы 
+
