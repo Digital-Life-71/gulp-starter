@@ -40,6 +40,7 @@ const webphtml = require('gulp-webp-html');
 const webpcss = require('gulp-webpcss');
 const rename = require('gulp-rename');
 const htmlmin = require('gulp-htmlmin');
+const formatHtml = require(`gulp-format-html`);
 const del = require('del');
 
 function browsersync() {
@@ -54,6 +55,7 @@ function html() {
 	return src(path.src.html)
 		.pipe(fileinclude())
 		.pipe(webphtml())
+		.pipe(formatHtml())
 		.pipe(dest(path.build.html))
 		.pipe(browserSync.stream())
 }
