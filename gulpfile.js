@@ -11,7 +11,7 @@ let path = {
 	{
 		html: ["app/*.html", "!app/inc"],
 		css: "app/sass/style.sass",
-		js: "app/js/script.js",
+		js: "app/js/*.js",
 		img: "app/img/**/*.{jpg,png,svg,gif,ico,webp}",
 		fonts: "app/fonts/*.ttf",
 	},
@@ -21,13 +21,13 @@ let path = {
 		css: "app/sass/**/*.sass",
 		js: "app/js/**/*.js",
 		img: "app/img/**/*.{jpg,png,svg,gif,ico,webp}",
+		fonts: "app/fonts/*.ttf",
 	},
 	clean: "./dist/"
 }
 
 const { src, dest, parallel, series, watch } = require('gulp');
 const browserSync = require('browser-sync').create();
-const fileinclude = require('gulp-file-include');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify-es').default;
 const sass = require('gulp-sass')(require('sass'));
@@ -43,6 +43,11 @@ const htmlmin = require('gulp-htmlmin');
 const formatHtml = require(`gulp-format-html`);
 const del = require('del');
 
+
+const nunjucks = require('gulp-nunjucks');
+
+
+
 function browsersync() {
 	browserSync.init({
 		server: { baseDir: "./dist/" }, // Указываем папку сервера
@@ -53,11 +58,12 @@ function browsersync() {
 
 function html() {
 	return src(path.src.html)
-		.pipe(fileinclude())
+		.pipe(nunjucks.compile())
 		.pipe(webphtml())
 		.pipe(formatHtml())
 		.pipe(dest(path.build.html))
 		.pipe(browserSync.stream())
+		
 }
 
 function scripts() {
@@ -69,6 +75,11 @@ function scripts() {
 		)
 		.pipe(dest(path.build.js))
 		.pipe(browserSync.stream())
+}
+
+function fontsb() {
+	return src(path.src.fonts)
+		.pipe(dest(path.build.fonts))
 }
 
 function styles() {
@@ -127,7 +138,6 @@ function startwatch() {
 
 function htmlMin() {
 	return src(path.src.html)
-		.pipe(fileinclude())
 		.pipe(htmlmin({ collapseWhitespace: true }))
 		.pipe(dest(path.build.html))
 		.pipe(browserSync.stream())
@@ -174,6 +184,7 @@ exports.scripts = scripts;
 exports.styles = styles;
 exports.html = html;
 exports.images = images;
+exports.fontsb = fontsb;
 
 exports.scriptsMin = scriptsMin;
 exports.stylesMin = stylesMin;
@@ -181,4 +192,4 @@ exports.htmlMin = htmlMin;
 exports.imagesMin = imagesMin;
 
 exports.build = series(cleandist, htmlMin, stylesMin, scriptsMin, imagesMin);
-exports.default = parallel(cleandist, html, styles, scripts, images, browsersync, startwatch);
+exports.default = parallel(cleandist, html, styles, scripts, images, fontsb, browsersync, startwatch);
